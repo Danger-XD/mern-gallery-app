@@ -11,7 +11,7 @@ app.use(cors());
 app.use(cookieParser());
 
 app.get("/", (req, res) => {
-  res.send("server started successfully");
+  res.send("server running successfully");
 });
 
 app.use("/api/v1/user", userRouter);
