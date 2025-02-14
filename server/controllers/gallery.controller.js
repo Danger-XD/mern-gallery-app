@@ -75,12 +75,13 @@ export const getUserPost = async (req, res) => {
         .status(404)
         .json({ success: false, message: "User not found!" });
     }
-    const authId = req.user ? req.user.id : undefined;
-    if (authId === undefined) {
-      const images = await imageModel.find({
-        userId: authId,
-        visible: "public",
-      });
+    const authId = req.user ? req.user.id : null;
+    let query = { userId };
+    // If not authenticated, show only public images
+    if (!authId || authId !== userId) {
+      query.visible = "public";
+    }
+    const images = await imageModel.find(query);
       if (!images) {
         return res
           .status(404)
@@ -90,14 +91,6 @@ export const getUserPost = async (req, res) => {
         success: true,
         data: images,
       });
-    }
-    const images = await imageModel.find({ userId: authId });
-    if (!images) {
-      return res
-        .status(404)
-        .json({ success: false, message: "No images found for this user" });
-    }
-    return res.status(200).json({ success: true, data: images });
   } catch (error) {
     return res
       .status(500)
@@ -106,21 +99,49 @@ export const getUserPost = async (req, res) => {
 };
 export const getAllPosts = async (req, res) => {
   try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10; // Default 10 images per page
+    const skip = (page - 1) * limit;
+
     const images = await imageModel
       .find({ visible: "public" })
-      .select("-userId -visible -_id");
-    if (!images) {
-      return res
-        .status(404)
-        .json({ success: false, message: "No images found" });
-    }
-    return res.status(200).json({ success: true, data: images });
+      .select("-userId -visible -_id")
+      .skip(skip)
+      .limit(limit);
+
+    const totalCount = await imageModel.countDocuments({ visible: "public" });
+
+    return res.status(200).json({
+      success: true,
+      total: totalCount,
+      page,
+      limit,
+      data: images,
+    });
   } catch (error) {
     return res
       .status(500)
       .json({ success: false, message: "error: " + error.message });
   }
 };
+
+// export const getAllPosts = async (req, res) => {
+//   try {
+//     const images = await imageModel
+//       .find({ visible: "public" })
+//       .select("-userId -visible -_id");
+//     if (!images) {
+//       return res
+//         .status(404)
+//         .json({ success: false, message: "No images found" });
+//     }
+//     return res.status(200).json({ success: true, data: images });
+//   } catch (error) {
+//     return res
+//       .status(500)
+//       .json({ success: false, message: "error: " + error.message });
+//   }
+// };
 export const deleteUserPost = async (req, res) => {
   try {
     const { postId } = req.params;
