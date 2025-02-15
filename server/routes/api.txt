@@ -1,0 +1,12 @@
+***(user's api)***
+base-url/api/v1/user/signup
+base-url/api/v1/user/login
+base-url/api/v1/user/logout
+
+***(gallery post's api)***
+base-url/api/v1/images/upload --> file, caption, visible(private/public)
+base-url/api/v1/images/profile/:userId
+base-url/api/v1/images/profile-all/:userId
+base-url/api/v1/images/update/:postId
+base-url/api/v1/images/delete-post/:postId
+base-url/api/v1/images/all-posts
