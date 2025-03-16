@@ -27,6 +27,23 @@ const userStore = create((set) => ({
       handleError(error.response?.data?.message);
     }
   },
+  userInfo: {},
+  setUserInfo:{},
+  userImages: [],
+  userInfoRequest: async (userId) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/v1/images/profile-all/${userId}`,
+        { withCredentials: true }
+      );
+      set({
+        userInfo: response.data.userInfo,
+        userImages: response.data.data,
+      });
+    } catch (error) {
+      handleError(error.response?.data?.message);
+    }
+  },
 }));
 
 export default userStore;

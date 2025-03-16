@@ -23,7 +23,7 @@ const Login = () => {
     e.preventDefault();
     const { email, password } = loginInfo;
     if (!email || !password) {
-      handleError("All fields are required");
+      handleError("Required fields are empty!");
       return;
     }
     try {
@@ -44,21 +44,25 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <form className="" onSubmit={handleSubmit}>
+    <div className="w-full h-screen flex justify-center items-center">
+      <form
+        className="bg-white w-72 h-70 py-32 bg-shadow rounded-3xl flex flex-col items-center justify-center md:w-82 md:h-72 lg:w-96 lg:h-76"
+        onSubmit={handleSubmit}
+      >
+        <div className="font-bold text-3xl lg:text-4xl mb-4">PicPost</div>
         <div>
-          <label htmlFor="email">Email</label>
           <input
+            className="pl-6 py-2.5 mb-5 w-60 md:w-70 lg:w-80 bg-gray-100 rounded"
             type="email"
             name="email"
             value={loginInfo.email}
             onChange={handleChange}
-            placeholder="xyz@xyx.com"
+            placeholder="Email"
           />
         </div>
         <div>
-          <label htmlFor="password">Password</label>
           <input
+            className="pl-6 py-2.5 mb-5 w-60 md:w-70 lg:w-80 bg-gray-100 rounded"
             type="password"
             name="password"
             value={loginInfo.password}
@@ -66,11 +70,11 @@ const Login = () => {
             placeholder="Password"
           />
         </div>
-        <div>
-          <input type="submit" value="Login" />
+        <div className="flex flex-col justify-center items-center">
+          <input className="py-1.5 mb-3 w-60 cursor-pointer text-xl md:w-70 lg:w-80 bg-gray-300 rounded" type="submit" value="Login" />
           <span>
             Create an Account?
-            <Link to="/signup">Sign Up</Link>
+            <Link to="/signup" className="ml-1 font-bold">Sign Up</Link>
           </span>
         </div>
       </form>

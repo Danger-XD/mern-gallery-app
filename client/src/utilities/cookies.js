@@ -1,3 +1,4 @@
+import { jwtDecode } from "jwt-decode";
 import { handleError } from "./toasts";
 import Cookies from "js-cookie";
 export const setCookies = (name, value) => {
@@ -14,6 +15,15 @@ export const setCookies = (name, value) => {
 export const getCookies = (name) => {
   try {
     return Cookies.get(name);
+  } catch (error) {
+    handleError(error.message);
+    return null;
+  }
+};
+export const getAuthCookies = () => {
+  try {
+    const { id } = jwtDecode(Cookies.get("token"));
+    return id;
   } catch (error) {
     handleError(error.message);
     return null;

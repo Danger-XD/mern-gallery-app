@@ -26,7 +26,7 @@ const Signup = () => {
     e.preventDefault();
     const { name, email, password } = signUpInfo;
     if (!name || !email || !password) {
-      handleError("All fields are required");
+      handleError("Required fields are empty!");
       return;
     }
     try {
@@ -45,11 +45,15 @@ const Signup = () => {
   };
 
   return (
-    <div>
-      <form className="" onSubmit={handleSubmit}>
+    <div className="w-full h-screen flex justify-center items-center">
+      <form
+        className="bg-white w-72 h-90 py-32 bg-shadow rounded-3xl flex flex-col items-center justify-center md:w-82 lg:w-96 lg:h-96"
+        onSubmit={handleSubmit}
+      >
+        <div className="font-bold text-3xl lg:text-4xl mb-4">PicPost</div>
         <div>
-          <label htmlFor="name">Name</label>
           <input
+            className="pl-6 py-2.5 mb-5 w-60 md:w-70 lg:w-80 bg-gray-100 rounded"
             type="text"
             name="name"
             value={signUpInfo.name}
@@ -58,18 +62,18 @@ const Signup = () => {
           />
         </div>
         <div>
-          <label htmlFor="email">Email</label>
           <input
+            className="pl-6 py-2.5 mb-5 w-60 md:w-70 lg:w-80 bg-gray-100 rounded"
             type="email"
             name="email"
             value={signUpInfo.email}
             onChange={handleChange}
-            placeholder="xyz@xyx.com"
+            placeholder="Email"
           />
         </div>
         <div>
-          <label htmlFor="password">Password</label>
           <input
+            className="pl-6 py-2.5 mb-5 w-60 md:w-70 lg:w-80 bg-gray-100 rounded"
             type="password"
             name="password"
             value={signUpInfo.password}
@@ -77,11 +81,17 @@ const Signup = () => {
             placeholder="Password"
           />
         </div>
-        <div>
-          <input type="submit" value="Signup" />
+        <div className="flex flex-col justify-center items-center">
+          <input
+            className="py-1.5 mb-3 cursor-pointer w-60 text-xl md:w-70 lg:w-80 bg-gray-300 rounded"
+            type="submit"
+            value="Sign up"
+          />
           <span>
             Already Have an Account?
-            <Link to="/login">Login</Link>
+            <Link to="/login" className="ml-1 font-bold">
+              Login
+            </Link>
           </span>
         </div>
       </form>

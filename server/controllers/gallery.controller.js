@@ -69,7 +69,7 @@ export const updateImagePost = async (req, res) => {
 export const getUserPost = async (req, res) => {
   try {
     const { userId } = req.params;
-    const user = await userModel.findById(userId);
+    const user = await userModel.findById(userId).select("-password");
     if (!user) {
       return res
         .status(404)
@@ -82,15 +82,16 @@ export const getUserPost = async (req, res) => {
       query.visible = "public";
     }
     const images = await imageModel.find(query);
-      if (!images) {
-        return res
-          .status(404)
-          .json({ success: false, message: "No images found for this user" });
-      }
-      return res.status(200).json({
-        success: true,
-        data: images,
-      });
+    if (!images) {
+      return res
+        .status(404)
+        .json({ success: false, message: "No images found for this user" });
+    }
+    return res.status(200).json({
+      success: true,
+      userInfo: user,
+      data: images,
+    });
   } catch (error) {
     return res
       .status(500)
@@ -163,12 +164,7 @@ export const deleteUserPost = async (req, res) => {
         .status(400)
         .json({ success: false, message: "Failed to delete post" });
     }
-    const deleteOnDB = await imageModel.findByIdAndDelete(postId);
-    if (!deleteOnDB) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Failed to delete post" });
-    }
+    await post.deleteOne();
     return res
       .status(200)
       .json({ success: true, message: "Post deleted successfully" });

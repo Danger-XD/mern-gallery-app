@@ -9,7 +9,6 @@ const AuthCheck = ({ setIsAuthenticated }) => {
     if (getCookies("token")) {
       setIsAuthenticated(true);
       if (
-        location.pathname === "/" ||
         location.pathname === "/login" ||
         location.pathname == "/signup"
       ) {

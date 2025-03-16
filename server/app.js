@@ -7,7 +7,7 @@ const app = express();
 
 app.use(express.urlencoded({ extended: process.env.URL_ENCODE }));
 app.use(express.json({ limit: process.env.MAX_JSON_SIZE }));
-app.use(cors());
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(cookieParser());
 
 app.get("/", (req, res) => {

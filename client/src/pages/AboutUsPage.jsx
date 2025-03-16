@@ -1,13 +1,13 @@
 import React from "react";
 import Layout from "../components/Layouts/Layout";
-import ImageGallery from "../components/ImageGallery";
+import AboutUs from "../components/AboutUs";
 
-const Home = () => {
+const AboutUsPage = () => {
   return (
     <Layout>
-      <ImageGallery />
+      <AboutUs />
     </Layout>
   );
 };
 
-export default Home;
+export default AboutUsPage;
